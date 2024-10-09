@@ -9,6 +9,7 @@
 
         <!-- Output sign in/sign out buttons appropriately -->
         <div class="navbar-header">
+			<img src="/img/custom_logo.png" class="navbar-brand d-inline-block align-top" alt="Logo" style="display: none;padding: 10px 0px 10px 15px;" onload="this.style.display=''">
             <a class="navbar-brand" href="{{ route('index') }}">{{env('APP_NAME')}}</a>
         </div>
 
@@ -39,6 +40,9 @@
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
                     <div class="dropdown-menu pull-right login-dropdown-menu" id="dropdown">
                         <h2>Login</h2>
+                        @if (in_array('SAML', explode(',', env('POLR_LOGIN_MODES'))) == true)                                        
+                            <a class="btn btn-primary form-control login-form-submit" href='{{route('login')}}?use_saml=true'>Login using {{env('SAML_IDP_NAME')}}</a>
+                        @endif
                         <form action="login" method="POST" accept-charset="UTF-8">
                             <input type="text" name="username" placeholder='Username' size="30" class="form-control login-form-field" />
                             <input type="password" name="password" placeholder='Password' size="30" class="form-control login-form-field" />

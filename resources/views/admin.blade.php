@@ -37,12 +37,16 @@
 
             <div role="tabpanel" class="tab-pane" id="settings">
                 <h3>Change Password</h3>
+                @if (empty(session('saml')))
                 <form action='/admin/action/change_password' method='POST'>
                     Old Password: <input class="form-control password-box" type='password' name='current_password' />
                     New Password: <input class="form-control password-box" type='password' name='new_password' />
                     <input type="hidden" name='_token' value='{{csrf_token()}}' />
                     <input type='submit' class='btn btn-success change-password-btn'/>
                 </form>
+                @else
+                    <p>This account is managed. Password reset is unavailable here.</p>
+                @endif
             </div>
 
             @if ($role == $admin_role)
@@ -131,6 +135,23 @@
             api-quota="modal.apiQuota" api-active="modal.apiActive" api-key="modal.apiKey"
             generate-new-api-key="generateNewAPIKey" clean-modals="cleanModals"></edit-user-api-info>
     </div>
+    
+    <div class="modal fade" id="getQrcode" tabindex="-1" role="dialog" aria-labelledby="QR Code" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">        
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-12 center-block text-center">Right click the QR code and select Save As</div>
+              <div class="col-xs-12">&nbsp;</div>
+            </div>
+            <div id="qr-code-container" style="display: flex; justify-content: center; align-items: center"></div>            
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </div>
+    </div>
 </div>
 
 
@@ -143,5 +164,7 @@
 {{-- Include extra JS --}}
 <script src='/js/datatables.min.js'></script>
 <script src='/js/api.js'></script>
+<script src='/js/qrcode.min.js'></script>
+<script src='/js/clipboard.min.js'></script>
 <script src='/js/AdminCtrl.js'></script>
 @endsection
